@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-tip_jar = "7n7uxngyUJtQVFvhCVatkHcMV2GfbvN2D1nk7EFcBKMV"
+tip_jar = "6fUfky9N9AA7ySNq6c8F38DDuN1ws7t3zNHRoRoRA7te"
 
 [provider]
 cluster = "localnet"
