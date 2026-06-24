@@ -1,4 +1,3 @@
-
 use {
     anchor_lang::{solana_program::instruction::Instruction, InstructionData, ToAccountMetas},
     litesvm::LiteSVM,
@@ -16,11 +15,21 @@ fn test_initialize() {
     let bytes = include_bytes!("../../../target/deploy/tip_jar.so");
     svm.add_program(program_id, bytes).unwrap();
     svm.airdrop(&payer.pubkey(), 1_000_000_000).unwrap();
-    
+
+    let (tip_jar_pda, _bump) = anchor_lang::prelude::Pubkey::find_program_address(
+        &[b"tip_jar", payer.pubkey().as_ref()],
+        &program_id,
+    );
+
     let instruction = Instruction::new_with_bytes(
         program_id,
         &tip_jar::instruction::Initialize {}.data(),
-        tip_jar::accounts::Initialize {}.to_account_metas(None),
+        tip_jar::accounts::Initialize {
+            tip_jar: tip_jar_pda,
+            owner: payer.pubkey(),
+            system_program: anchor_lang::solana_program::system_program::ID,
+        }
+        .to_account_metas(None),
     );
 
     let blockhash = svm.latest_blockhash();
