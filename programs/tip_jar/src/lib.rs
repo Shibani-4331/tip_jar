@@ -6,8 +6,12 @@ pub mod state;
 use anchor_lang::prelude::*;
 
 pub use constants::*;
-pub use instructions::*;
 pub use state::*;
+
+use instructions::initialize::*;
+use instructions::tip::*;
+use instructions::withdraw::*;
+
 
 declare_id!("713h5SKmZ33JimUM8TrF8es2HdiacpUU2eZosuqs7GSS");
 
@@ -21,5 +25,9 @@ pub mod tip_jar {
 
     pub fn tip(ctx: Context<Tip>, amount: u64)-> Result<()>{
         instructions::tip::handler(ctx, amount)
+    }
+
+    pub fn withdraw(ctx: Context<Withdraw>, amount:u64) -> Result<()>{
+        instructions::withdraw::handler(ctx, amount)
     }
 }
